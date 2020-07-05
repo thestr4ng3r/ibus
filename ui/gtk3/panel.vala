@@ -24,6 +24,7 @@
 class Panel : IBus.PanelService {
 
     private enum IconType {
+        NONE,
         STATUS_ICON,
         INDICATOR,
     }
@@ -32,7 +33,7 @@ class Panel : IBus.PanelService {
     private GLib.Settings m_settings_general = null;
     private GLib.Settings m_settings_hotkey = null;
     private GLib.Settings m_settings_panel = null;
-    private IconType m_icon_type = IconType.STATUS_ICON;
+    private IconType m_icon_type = IconType.NONE;
     private Indicator m_indicator;
 #if INDICATOR
     private GLib.DBusConnection m_session_bus_connection;
@@ -94,16 +95,30 @@ class Panel : IBus.PanelService {
 
         init_settings();
 
-        // init ui
+#if 0
 #if INDICATOR
+        // init ui
         if (m_is_kde) {
-            init_indicator();
+            m_icon_type = IconType.INDICATOR;
         } else {
-            init_status_icon();
+            m_icon_type = IconType.STATUS_ICON;
         }
 #else
-        init_status_icon();
+        m_icon_type = IconType.STATUS_ICON;
 #endif
+#endif
+        switch (m_icon_type) {
+            case IconType.NONE:
+                break;
+            case IconType.STATUS_ICON:
+#if INDICATOR
+                init_status_icon();
+#endif
+                break;
+            case IconType.INDICATOR:
+                init_indicator();
+                break;
+        }
 
         m_candidate_panel = new CandidatePanel();
         m_candidate_panel.page_up.connect((w) => this.page_up());
