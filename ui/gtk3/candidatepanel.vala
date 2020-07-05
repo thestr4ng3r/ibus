@@ -50,7 +50,7 @@ public class CandidatePanel : Gtk.Box{
             visible: true
         );
 
-        m_toplevel = new Gtk.Window(Gtk.WindowType.POPUP);
+        m_toplevel = new Gtk.Window(Gtk.WindowType.TOPLEVEL);
         m_toplevel.add_events(Gdk.EventMask.BUTTON_PRESS_MASK);
         m_toplevel.button_press_event.connect((w, e) => {
             if (e.button != 1 || (e.state & Gdk.ModifierType.CONTROL_MASK) == 0)
@@ -73,6 +73,8 @@ public class CandidatePanel : Gtk.Box{
         m_toplevel.add(this);
 
         create_ui();
+
+        show();
     }
 
     public void set_vertical(bool vertical) {
@@ -141,11 +143,11 @@ public class CandidatePanel : Gtk.Box{
                 set_attributes(m_preedit_label, text);
             } else {
                 m_preedit_label.set_text("");
-                m_preedit_label.hide();
+                //m_preedit_label.hide();
             }
         } else {
             m_preedit_label.set_text("");
-            m_preedit_label.hide();
+            //m_preedit_label.hide();
         }
         update();
     }
@@ -158,7 +160,7 @@ public class CandidatePanel : Gtk.Box{
             m_aux_label.show();
         } else {
             m_aux_label.set_text("");
-            m_aux_label.hide();
+            //m_aux_label.hide();
         }
         update();
     }
@@ -202,8 +204,8 @@ public class CandidatePanel : Gtk.Box{
 
         if (candidates.length != 0)
             m_candidate_area.show_all();
-        else
-            m_candidate_area.hide();
+        //else
+        //    m_candidate_area.hide();
 
         update();
     }
@@ -221,20 +223,20 @@ public class CandidatePanel : Gtk.Box{
          * gtk_widget_get_preferred_width/height(). How does the code
          * know the size to allocate?"
          * in gtk_widget_size_allocate_with_baseline() */
-        m_toplevel.resize(1, 1);
+        //m_toplevel.resize(1, 1);
 
         if (m_candidate_area.get_visible() ||
             m_preedit_label.get_visible() ||
             m_aux_label.get_visible())
             m_toplevel.show();
-        else
-            m_toplevel.hide();
+        //else
+        //    m_toplevel.hide();
 
         if (m_aux_label.get_visible() &&
             (m_candidate_area.get_visible() || m_preedit_label.get_visible()))
             m_hseparator.show();
-        else
-            m_hseparator.hide();
+        //else
+        //    m_hseparator.hide();
     }
 
     private void create_ui() {
@@ -280,11 +282,11 @@ public class CandidatePanel : Gtk.Box{
     }
 
     public new void hide() {
-        m_toplevel.hide();
+        //m_toplevel.hide();
     }
 
     private void move(int x, int y) {
-        m_toplevel.move(x, y);
+        //m_toplevel.move(x, y);
     }
 
     private void adjust_window_position() {
